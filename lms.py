@@ -9,9 +9,12 @@ class Library:
     def list_books(self):
         self.file.seek(0)
         lines = self.file.read().splitlines()
-        for line in lines:
-            book_info = line.split(',')
-            print(f"Book: {book_info[0]}, Author: {book_info[1]}")
+        if not lines:
+            print("There are no books in the library.")
+        else:        
+            for line in lines:
+                book_info = line.split(',')
+                print(f"Book: {book_info[0]}, Author: {book_info[1]}")
 
     def add_book(self):
         title = input("Enter book title: ")
@@ -29,12 +32,19 @@ class Library:
         lines = self.file.readlines()
         self.file.seek(0)
         self.file.truncate()
+        
+        book_removed = False
 
         for line in lines:
             if title_to_remove not in line:
                 self.file.write(line)
+            else:
+                book_removed = True
 
-        print(f"Book '{title_to_remove}' removed successfully.")
+        if book_removed:
+            print(f"Book '{title_to_remove}' removed successfully.")
+        else:
+            print(f"There is no such a book with title '{title_to_remove}'.")
 
 
 # Creating an object named "lib" with "Library" class
